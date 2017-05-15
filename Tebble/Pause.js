@@ -20,6 +20,7 @@ export class Pause extends Component {
             transparent={true}
             visible={this.state.paused}
             style={{flex: 1}}
+            onRequestClose = {() => this.resume()}
         >
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,.96)'}}
             >
