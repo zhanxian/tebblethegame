@@ -50,11 +50,11 @@ export class Grid extends Component{
         // sound.play();
 
     }
-
+    
     componentDidMount() {
         this.createGrid();
     }
-
+    //initializes the grid
     createGrid() {
         var grid = [];
         var row = [];
@@ -72,7 +72,7 @@ export class Grid extends Component{
         this.setState({grid}, () => {
         });
     }
-
+    //change the tile at i, j to cell
     changeTile(i, j, cell) {
         var thisCell = this.cells.get(i+''+j);
         if (cell == 27){
@@ -99,11 +99,11 @@ export class Grid extends Component{
         }
         this.grid[i][j] = cell;
     }
-
+    //tells game to render gameover screen
     gameOver(){
         this.props.gameOver(this.state.score);
     }
-
+    //generate the next tile
     loadNextTile() {
         var counter = 0;
         for (var i = 0; i < this.state.w; i++){
@@ -154,7 +154,7 @@ export class Grid extends Component{
         else if(num < 115) { return 28; } //DOUBLE DOUBLE
         return 1; //this should not happen, but return 'a'
     }
-
+    //start the game
     startGame() {
         this.setState({score: 0, word: []});
         for(i = 0; i < this.state.h; i++) {
@@ -170,7 +170,7 @@ export class Grid extends Component{
             }
         }, this.speed)
     }
-
+    //move the current falling tile in play down one block
     MoveDown(i, j){
         if (i < this.state.h-1 && this.grid[i+1][j] == 0){
             this.changeTile(i+1, j, this.grid[i][j]);
@@ -202,7 +202,7 @@ export class Grid extends Component{
         }
         return 0;
     }
-
+ 
     wordreturner() {
         var word1 = "";
         var i;
@@ -212,7 +212,7 @@ export class Grid extends Component{
         }
         return word1;
     }
-
+    //check if word exists
     wordchecker() {
         var selected = this.wordreturner();
         var spot = this.dictionary.indexOf(selected);
@@ -232,7 +232,7 @@ export class Grid extends Component{
         this.setState({word: []});
         this.setState({score: this.state.score + scoreupdater});
     }
-
+    //calculates score
     scorer(letter) {
 
         if(letter == 1){ return 1; } //letter is 'a': worth 1 pt
@@ -262,7 +262,7 @@ export class Grid extends Component{
         else if(letter == 25){ return 4; } //letter is 'y': worth 4 pts
         else if(letter == 26){ return 10; } //letter is 'z': worth 10 pts
     }
-
+    //make a step time-wise
     step() {
         this.counter++;
         if (this.counter % this.thresh != 0){
@@ -291,7 +291,7 @@ export class Grid extends Component{
             }
         }
     }
-
+    //shift the falling tile to the direction indicated by direction
     shiftCells(direction){
         for (var i = 0; i < this.state.h-1; i++){
             for (var j = 0; j < this.state.w; j++){
@@ -317,7 +317,7 @@ export class Grid extends Component{
         }
     }
 
-
+    //handle clicking of tile at i, j
     clickTile(i, j){
         if(this.grid[i][j] != 0 && ((i < this.state.h-1 && this.grid[i+1][j] != 0) || i == this.state.h-1)){
             this.cells.get(i+''+j).changeTouched(true);
@@ -338,54 +338,18 @@ export class Grid extends Component{
             this.setState({word: wordTemp});
         }
     }
-
+    //pause the game
     pause(){
         this.setState({paused: true});
         this.props.pause(this.state.score);
     }
-
+    //show leaderboard
     leader(){
         this.setState({paused: true});
         this.props.leader();
     }
-
-    addToLeaderboard(name, score) {
-        var users = this.leaderboardDatabase.ref('users');
-        var nameExists = false;
-        users.once('value')
-            .then(function(snapshot) {
-                var user = snapshot.child(name);
-                nameExists = user.exists();
-                if (nameExists) {
-                    var highscore = Math.max(user.child('highscore').val(), score);
-                    users.child(name).set({
-                        'highscore': highscore
-                    });
-                }
-                else {
-                    users.child(name).set({
-                        'highscore': score
-                    });
-                }
-            });
-    }
-
-    retrieveLeaders() {
-        var users = this.leaderboardDatabase.ref('users');
-        var topTenNames = [];
-        var topTenScores = [];
-        users.orderByChild("highscore").once("value", function(snapshot) {
-           snapshot.forEach(function(userSnap) {
-              topTenNames.push(userSnap.key);
-              topTenScores.push(userSnap.child('highscore').val());
-          });
-        });
-        //console.log("scores " + topTenScores.toString());
-        //console.log("Names " + topTenNames.toString());
-        this.topTenNames = topTenNames.slice();
-        this.topTenScores = topTenScores.slice();
-    }
-
+    
+    //render the buttons on the grid
     renderButtons() {
         return (
             <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: 15}}>
@@ -401,7 +365,7 @@ export class Grid extends Component{
             </View> ///
         )
     }
-
+    //render the cells/tiles
     renderCells() {
         var size = 69;
         return this.state.grid.map((row, i) => {
