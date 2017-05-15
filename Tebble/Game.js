@@ -20,7 +20,7 @@ export class Game extends Component {
               leaderboard: false
           }
 
-
+        //initialize firebase
           var config = {
             apiKey: "AIzaSyApDh39qPWTvfH92eEq79agpv5fyTsjcMI",
             authDomain: "tebble-15923.firebaseapp.com",
@@ -35,7 +35,7 @@ export class Game extends Component {
           this.topTenNames = [];
           this.topTenScores = [];
     }
-
+    //sets up local highscore and firebase highscores
     componentDidMount(){
         var item = AsyncStorage.getItem("Local_highscore");
         item.then((hsStr)=>{
@@ -54,7 +54,7 @@ export class Game extends Component {
         });
         this.retrieveLeaders();
     }
-
+    //add highscore to firebase
     addToLeaderboard() {
         var name = this.state.name;
         var score = this.state.score;
@@ -70,7 +70,7 @@ export class Game extends Component {
             start: true
         })
     }
-
+    // retrieve top ten from firebase
     retrieveLeaders() {
         var users = this.leaderboardDatabase.ref('users');
         var topTenNames = this.topTenNames;
@@ -85,12 +85,12 @@ export class Game extends Component {
         this.topTenScores = topTenScores.slice();
         this.topTenNames = topTenNames.slice();
     }
-
+    //save local high score
     saveName(text) {
         this.setState({name: text});
         AsyncStorage.setItem("local_name", text);
     }
-
+    //forces render of gameover screen
     gameOver(score){
         if (score > this.state.highscore){
             this.setState({
@@ -109,39 +109,39 @@ export class Game extends Component {
             });
         }
     }
-
+    //start the game
     startGame(){
         this.grid.startGame();
         this.setState({start: false})
         this.retrieveLeaders();
     }
-
+    //resume the game from pause
     resume(){
         this.setState({paused:!this.state.paused});
         this.grid.setState({paused:!this.grid.state.paused});
     }
-
+    //resume the game from leaderboard
     resumeL(){
         this.setState({leaderboard:false});
         this.grid.setState({paused:!this.grid.state.paused});
     }
-
+    //restart the game from gameOver
     restart(){
         this.setState({gameOver:!this.state.gameOver});
         this.startGame();
     }
-
+    //pause the game
     pause(score){
         this.setState({
             paused: true,
             score : score
         });
     }
-
+    //forces re-render of leaderboard
     leader(){
         this.setState({leaderboard:!this.state.leaderboard});
     }
-
+    //renders paused screen
     renderPaused(){
         return(
             <Pause
@@ -152,14 +152,14 @@ export class Game extends Component {
             />
         )
     }
-
+    //renders leaderboard
     renderLeaders(){
         this.retrieveLeaders();
         return(
             <Leaderboard users = {this.topTenNames} scores = {this.topTenScores} resume = {this.resumeL.bind(this)}/>
         )
     }
-
+    //renders game grid
     renderGrid(){
         return (
             <View style ={styles.container}>
@@ -167,7 +167,7 @@ export class Game extends Component {
         	</View>
         );
     }
-
+    //renders gameover screen
     renderGameOver() {
         return (
             <GameOver restart = {this.restart.bind(this)} saveName = {this.saveName.bind(this)} addToLeaderboard = {this.addToLeaderboard.bind(this)} score = {this.state.score}/>
