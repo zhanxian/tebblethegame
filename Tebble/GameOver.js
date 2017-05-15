@@ -9,12 +9,12 @@ export class GameOver extends Component {
             name : ''
         }
     }
-
+    //restart game
     startGame(){
         this.setState({gameStart:false});
         this.props.restart();
     }
-
+    //save name of user
     saveName(text){
         this.props.saveName(text);
         this.setState({name : text});
