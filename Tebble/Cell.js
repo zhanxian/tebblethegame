@@ -18,19 +18,19 @@ export class Cell extends Component {
 			points: props.points,
 		}
 	}
-
+	//sets the point value of this cell
 	changePoints(points){
 		this.setState({points: points});
 	}
-
+	//sets the letter of this cell
 	changeLetter(string){
 		this.setState({letter: string});
 	}
-
+	//sets the color of this cell
 	changeColor(color){
 		this.setState({color: color});
 	}
-
+	//indicates whether the cell has been selected
 	changeTouched(bool){
 		this.setState({touched: bool});
 	}
