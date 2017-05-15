@@ -8,7 +8,7 @@ export class Pause extends Component {
             paused: true
         }
     }
-
+    //exit pause screen and resume game
     resume(){
         this.props.resume();
     }
