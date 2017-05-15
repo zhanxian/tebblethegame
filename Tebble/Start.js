@@ -8,7 +8,7 @@ export class Start extends Component {
             gameNotStart : props.visible
         }
     }
-
+    //tell grid to start the game
     startGame(){
         this.props.startGame();
     }
