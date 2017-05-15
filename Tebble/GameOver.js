@@ -27,6 +27,7 @@ export class GameOver extends Component {
                     transparent={true}
                     visible={true}
                     style={{flex: 1}}
+                    onRequestClose{() => this.startGame()}
                 >
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,.96)'}}>
                         <Text style={{fontSize: 50, fontWeight: '800'}}>
