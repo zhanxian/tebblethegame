@@ -10,7 +10,7 @@ export class Leaderboard extends Component {
         this.topTenNames = props.users;
         this.topTenScores = props.scores;
     }
-
+    //exit leaderboard and resume game
     resume(){
         this.props.resume();
     }
