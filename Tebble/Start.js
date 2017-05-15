@@ -12,6 +12,8 @@ export class Start extends Component {
     startGame(){
         this.props.startGame();
     }
+    
+    doNothing(){}
 
     render(){
         return (
@@ -20,6 +22,7 @@ export class Start extends Component {
                 transparent={true}
                 visible={this.props.visible}
                 style={{flex: 1}}
+            onRequestClose{() => this.doNothing()}
             >
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,.96)'}}
                 >
